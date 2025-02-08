@@ -1,0 +1,70 @@
+name: Build Pipeline Lab1
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: java
+          
+      - name: Build for CodeQL Analysis
+        run: |
+          mvn clean compile
+          
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+          
+      #- name: Run OWASP Dependency Check
+      #  uses: dependency-check/Dependency-Check_Action@main
+      #  with:
+      #    project: 'Lab1'
+      #    path: 'lab1'
+      #    format: 'HTML'
+          
+      #- name: Upload security analysis results
+      #  uses: actions/upload-artifact@v3
+      #  with:
+      #    name: security-reports
+      #    path: |
+      #      **/dependency-check-report.html
+
+  build-jar:
+    needs: security-scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          
+      - name: Build with Maven
+        run: |
+          mvn clean package
+          
+      - name: Upload JAR artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: lab1-artifacts
+          path: lab1/target/*.jar
