@@ -10,6 +10,7 @@ import io.javalin.http.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 
 public class UserController {
@@ -19,6 +20,21 @@ public class UserController {
 
     public UserController(TodoUserService userService) {
         this.userService = userService;
+    }
+
+    public void addProfilePicture(Context ctx) {
+        String userId = ctx.pathParam("userId");
+        String fileName = ctx.formParam("fileName");
+        // Path traversal vulnerability - directly using user input in file operations
+        java.io.File profilePic = new java.io.File("/app/profiles/" + userId + "/" + fileName);
+        try {
+            java.io.InputStream fileContent = ctx.uploadedFile("image").content();
+            byte[] imageData = fileContent.readAllBytes();
+            java.nio.file.Files.write(profilePic.toPath(), imageData);
+            ctx.status(200).json("Profile picture uploaded successfully");
+        } catch (Exception e) {
+            ctx.status(500).result("Error uploading profile picture");
+        }
     }
 
     public void createUser(Context ctx) throws NoSuchAlgorithmException {
