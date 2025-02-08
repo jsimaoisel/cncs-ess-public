@@ -67,4 +67,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lab1-artifacts
-          path: lab1/target/*.jar
+          path: target/*.jar
