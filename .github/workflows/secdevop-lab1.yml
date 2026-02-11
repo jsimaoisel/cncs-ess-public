@@ -60,6 +60,8 @@ jobs:
           scan-type: fs
           scanners: secret
           exit-code: 1
+          format: sarif
+          output: trivy-secrets.sarif
 
       # Scan de dependências
       - name: Scan dependencies
@@ -75,6 +77,18 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: trivy.sarif
+
+      - name: Upload SARIF (dependencies)
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy.sarif
+
+      - uses: actions/upload-artifact@v4
+      with:
+        name: trivy-results
+        path: |
+          trivy.sarif
+          trivy-secrets.sarif
 
   build-jar:
     needs: security-scan
