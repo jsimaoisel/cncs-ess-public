@@ -38,20 +38,6 @@ jobs:
           
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
-          
-      #- name: Run OWASP Dependency Check
-      #  uses: dependency-check/Dependency-Check_Action@main
-      #  with:
-      #    project: 'Lab1'
-      #    path: 'lab1'
-      #    format: 'HTML'
-          
-      #- name: Upload security analysis results
-      #  uses: actions/upload-artifact@v3
-      #  with:
-      #    name: security-reports
-      #    path: |
-      #      **/dependency-check-report.html
 
       # Scan de segredos
       - name: Scan secrets
@@ -74,12 +60,12 @@ jobs:
           output: trivy.sarif
 
       - name: Upload SARIF
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: trivy.sarif
 
       - name: Upload SARIF (dependencies)
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: trivy.sarif
 
