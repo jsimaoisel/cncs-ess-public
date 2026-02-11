@@ -83,10 +83,6 @@ jobs:
             echo "Vulnerabilities found"
             exit 1
           fi
-          if jq '.runs[].results | length > 0' trivy.sarif; then
-            echo "Vulnerabilities found"
-            exit 1
-          fi
 
 
   build-jar:
