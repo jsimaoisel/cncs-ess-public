@@ -25,7 +25,8 @@ jobs:
       # Testes unitários
       - name: Build e testes (JUnit)
         run: mvn clean verify
-          
+
+      # CodeQL
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
@@ -51,6 +52,22 @@ jobs:
       #    name: security-reports
       #    path: |
       #      **/dependency-check-report.html
+
+      # Scan de segredos
+      - name: Scan secrets
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          scan-type: fs
+          scanners: secret
+          exit-code: 1
+
+      # Scan de dependências
+      - name: Scan dependencies
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          scan-type: fs
+          severity: CRITICAL,HIGH
+          exit-code: 1
 
   build-jar:
     needs: security-scan
