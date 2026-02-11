@@ -13,13 +13,18 @@ jobs:
       contents: read
       
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout do código
+        uses: actions/checkout@v4
 
       - name: Set up Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
+
+      # Testes unitários
+      - name: Build e testes (JUnit)
+        run: mvn clean verify
           
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
@@ -56,13 +61,13 @@ jobs:
       contents: read
       
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       - name: Set up Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
           
       - name: Build with Maven
         run: |
