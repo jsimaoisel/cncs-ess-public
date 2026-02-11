@@ -48,6 +48,7 @@ jobs:
           exit-code: 1
           format: sarif
           output: trivy-secrets.sarif
+          trivy-args: --debug
 
       # Scan de dependências
       - name: Scan dependencies
