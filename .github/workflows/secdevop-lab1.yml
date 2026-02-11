@@ -45,10 +45,9 @@ jobs:
         with:
           scan-type: fs
           scanners: secret
-          exit-code: 1
+          #exit-code: 1
           format: sarif
           output: trivy-secrets.sarif
-          trivy-args: --debug
 
       # Scan de dependências
       #- name: Scan dependencies
@@ -77,6 +76,17 @@ jobs:
           #  trivy.sarif
           #  trivy-secrets.sarif
           path: trivy-secrets.sarif
+
+      - name: Fail if vulnerabilities found
+        run: |
+          if jq '.runs[].results | length > 0' trivy-secrets.sarif; then
+            echo "Vulnerabilities found"
+            exit 1
+          fi
+          if jq '.runs[].results | length > 0' trivy.sarif; then
+            echo "Vulnerabilities found"
+            exit 1
+          fi
 
 
   build-jar:
