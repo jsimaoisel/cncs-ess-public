@@ -79,7 +79,7 @@ jobs:
 
       - name: Fail if vulnerabilities found
         run: |
-          if jq '.runs[].results | length > 0' trivy-secrets.sarif; then
+          if jq -e '.runs[].results | length > 0' trivy-secrets.sarif > /dev/null; then
             echo "Vulnerabilities found"
             exit 1
           fi
