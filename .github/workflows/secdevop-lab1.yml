@@ -28,7 +28,7 @@ jobs:
 
       # CodeQL
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: java
           
@@ -37,7 +37,7 @@ jobs:
           mvn clean compile
           
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
           
       #- name: Run OWASP Dependency Check
       #  uses: dependency-check/Dependency-Check_Action@main
