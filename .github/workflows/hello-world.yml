@@ -10,7 +10,7 @@ jobs:
   hello-world-job: 
     strategy: 
       matrix: 
-        version: [22, 24]
+        version: [10, 22, 24]
         os: [ubuntu-latest]
 
     # The type of runner that the job will run on
