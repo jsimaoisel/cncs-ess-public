@@ -3,12 +3,23 @@ name: Hello World Workflow
 # Controls when the workflow will run
 on: [push, workflow_dispatch]
 
+env:
+  MY_VAR: my_value
+
 jobs:
   hello-world-job: 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest    # Sequence of tasks that will be executed as part of the 
     steps:
+    
     # Checks-out the repository
     - uses: actions/checkout@v4    # Runs a single command using the runner shell
     - name: Run a one-line script
       run: echo Hello, world!
+
+    # Print environment variables
+    - name: Print Environment Variable
+      run: echo $MY_VAR
+    - name: Print all Variables
+      run: export
+
