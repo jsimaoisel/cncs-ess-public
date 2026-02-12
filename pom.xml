@@ -25,7 +25,7 @@
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
-            <version>6.4.0</version> <!-- Check for the latest version -->
+            <version>6.7.0</version> <!-- Check for the latest version -->
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
