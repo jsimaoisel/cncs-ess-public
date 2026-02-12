@@ -10,8 +10,8 @@ jobs:
   hello-world-job: 
     strategy: 
       matrix: 
-        version: [10, 12, 14]
-        os: [ubuntu-latest, windows-latest]
+        version: [22, 24]
+        os: [ubuntu-latest]
 
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }} 
