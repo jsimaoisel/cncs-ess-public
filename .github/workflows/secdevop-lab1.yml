@@ -38,43 +38,24 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
 
-      # Scan de segredos
-      - name: Scan secrets
+      - name: Scan Completo com Trivy
         uses: aquasecurity/trivy-action@0.20.0
         with:
-          scan-type: fs
-          scanners: secret
-          #exit-code: 1
-          format: sarif
-          output: trivy-secrets.sarif
-
-      # Scan de dependências
-      #- name: Scan dependencies
-      #  uses: aquasecurity/trivy-action@0.20.0
-      #  with:
-      #    scan-type: fs
-      #    severity: CRITICAL,HIGH
-      #    exit-code: 1
-      #    format: sarif
-      #    output: trivy.sarif
-
-      - name: Upload SARIF (secrets)
+          scan-type: 'fs'                      # filesystem
+          scanners: 'vuln,secret,config'       # tudo
+          severity: 'CRITICAL,HIGH'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+      
+      - name: Upload SARIF
         uses: github/codeql-action/upload-sarif@v4
         with:
-          sarif_file: trivy-secrets.sarif
-
-      #- name: Upload SARIF (dependencies)
-      #  uses: github/codeql-action/upload-sarif@v4
-      #  with:
-      #    sarif_file: trivy.sarif
+          sarif_file: trivy-results.sarif
 
       - uses: actions/upload-artifact@v4
         with:
-          name: trivy-results
-          #path: |
-          #  trivy.sarif
-          #  trivy-secrets.sarif
-          path: trivy-secrets.sarif
+          name: Generate artifact with Trivy result
+          path: trivy-results.sarif
 
       - name: Fail if vulnerabilities found
         run: |
