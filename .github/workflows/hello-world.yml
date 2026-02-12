@@ -22,4 +22,6 @@ jobs:
       run: echo $MY_VAR
     - name: Print all Variables
       run: export
+    - name: Print secret
+      run: export ${{secrets.SECRET_TOKEN}}
 
