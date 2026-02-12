@@ -16,6 +16,10 @@ jobs:
       security-events: write
       actions: read
       contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      # id-token: write
       
     steps:
       - name: Checkout do código
