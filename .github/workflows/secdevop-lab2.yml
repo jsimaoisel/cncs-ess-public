@@ -1,4 +1,4 @@
-name: Build Pipeline Lab1
+name: Build Pipeline v2 Lab1
 
 on:
   workflow_dispatch:
