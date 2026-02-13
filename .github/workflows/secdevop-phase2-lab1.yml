@@ -1,4 +1,4 @@
-name: Build Pipeline phase2: build + push image
+name: Build Pipeline phase2 (build + push image)
 
 on:
   workflow_dispatch:
