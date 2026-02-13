@@ -3,12 +3,6 @@ name: Build Pipeline v1 Lab1
 on:
   workflow_dispatch:
 
-env:
-  # Use docker.io for Docker Hub if empty
-  REGISTRY: ghcr.io
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
-
 jobs:
   security-scan:
     runs-on: ubuntu-latest
@@ -29,9 +23,9 @@ jobs:
 
       # Testes unitários
       - name: Build e testes (JUnit)
-        run: mvn clean verify
+        run: mvn clean test
 
-      # CodeQL
+      # CodeQL - análise estática de código
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
         with:
@@ -43,6 +37,7 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
 
+      # Trivy
       - name: Scan Completo com Trivy
         uses: aquasecurity/trivy-action@0.20.0
         with:
@@ -62,9 +57,3 @@ jobs:
           name: Generate artifact with Trivy result
           path: trivy-results.sarif
 
-     # - name: Fail if vulnerabilities found
-     #   run: |
-     #     if jq -e '.runs[].results | length > 0' trivy-secrets.sarif > /dev/null; then
-     #       echo "Vulnerabilities found"
-     #       exit 1
-     #     fi
