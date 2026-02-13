@@ -1,4 +1,4 @@
-name: Build Pipeline v2 Lab1
+name: Build Pipeline phase2: build + push image
 
 on:
   workflow_dispatch:
