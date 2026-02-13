@@ -1,4 +1,4 @@
-name: Build Pipeline phase 1 - maven + sast
+name: Build Pipeline phase 1: maven + sast
 
 on:
   workflow_dispatch:
