@@ -83,3 +83,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64
           push: true
+          ##
+          sbom: true  # Gerar SBOM automaticamente
+          provenance: true  # Gerar provenance
