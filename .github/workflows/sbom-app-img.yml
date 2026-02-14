@@ -54,13 +54,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3
+
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
       
       # Build for AMD64 (to generate SBOM)
       - name: Build Docker image
