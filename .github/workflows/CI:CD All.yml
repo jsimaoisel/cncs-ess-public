@@ -128,7 +128,7 @@ jobs:
           name: Generate artifact with Trivy image result
           path: trivy-image-results.sarif
 
-        # Push multi-arch (AMD64 + ARM64)
+      # Push multi-arch (AMD64 + ARM64)
       - name: Push Docker image (multi-arch)
         uses: docker/build-push-action@v5
         with:
