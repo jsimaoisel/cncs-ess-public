@@ -67,6 +67,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # SBOM (Maven / CycloneDX)
+      - name: Generate SBOM (Application)
+        run: mvn -B org.cyclonedx:cyclonedx-maven-plugin:2.8.0:makeAggregateBom
+
+      - name: Upload SBOM Application
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-application
+          path: target/bom.json
+
+
   image-build-push:
     needs: test-sast
     runs-on: ubuntu-latest
