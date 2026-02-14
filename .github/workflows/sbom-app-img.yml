@@ -32,8 +32,8 @@ jobs:
           cosign sign-blob \
             --yes \
             target/bom.json \
-            --output-signature sbom-aplication.sig \
-            --output-certificate sbom-aplication.crt
+            --output-signature sbom-application.sig \
+            --output-certificate sbom-application.crt
 
       - name: Upload SBOM Application (+sig +crt)
         uses: actions/upload-artifact@v4
@@ -41,8 +41,8 @@ jobs:
           name: sbom-application
           path: |
             target/bom.json
-            sbom-aplication.sig
-            sbom-aplication.crt
+            sbom-application.sig
+            sbom-application.crt
 
   sbom-image:
     runs-on: ubuntu-latest
@@ -100,3 +100,4 @@ jobs:
             sbom-image.cdx.json
             sbom-image.sig
             sbom-image.crt
+          compression-level: 0
