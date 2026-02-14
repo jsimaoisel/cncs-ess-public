@@ -95,7 +95,7 @@ jobs:
       - name: Upload SBOM Image (+sig +crt)
         uses: actions/upload-artifact@v4
         with:
-          name: sbom-application
+          name: sbom-image
           path: |
             target/bom.json
             sbom-image.sig
