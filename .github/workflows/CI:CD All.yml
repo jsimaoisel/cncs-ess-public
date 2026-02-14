@@ -27,24 +27,24 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      # Testes unitários
+      # Run unit tests
       - name: Build e testes (JUnit)
         run: mvn clean test
 
-      # CodeQL - análise estática de código
-      # - name: Initialize CodeQL
-      #   uses: github/codeql-action/init@v4
-      #   with:
-      #     languages: java
+      # CodeQL - SAST
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: java
           
-      # - name: Build for CodeQL Analysis
-      #   run: mvn clean compile
+      - name: Build for CodeQL Analysis
+        run: mvn clean compile
           
-      # - name: Perform CodeQL Analysis
-      #   uses: github/codeql-action/analyze@v4
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
 
       # Trivy
-      - name: Scan Completo com Trivy
+      - name: Complete scan with Trivy
         uses: aquasecurity/trivy-action@0.20.0
         with:
           scan-type: 'fs'                      
@@ -58,7 +58,7 @@ jobs:
         with:
           sarif_file: trivy-results.sarif
 
-      - name: Upload artifact to pipeline run
+      - name: Upload artifact to pipeline metadata
         uses: actions/upload-artifact@v4
         with:
           name: Generate artifact with Trivy result
@@ -90,7 +90,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      # Build para AMD64 (para scan)
+      # Build for AMD64 (to scan the image)
       - name: Build Docker image
         id: build
         uses: docker/build-push-action@v5
