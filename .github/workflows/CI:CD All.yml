@@ -140,6 +140,9 @@ jobs:
           push: true
 
       # Sign all pushed image tags
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3
+
       - name: Sign all image tags
         run: |
           echo "${{ steps.meta.outputs.tags }}" | tr ',' '\n' | while read tag; do

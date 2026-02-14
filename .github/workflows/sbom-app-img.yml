@@ -100,4 +100,3 @@ jobs:
             sbom-image.cdx.json
             sbom-image.sig
             sbom-image.crt
-          compression-level: 0
