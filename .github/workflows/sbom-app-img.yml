@@ -97,6 +97,6 @@ jobs:
         with:
           name: sbom-image
           path: |
-            target/sbom-image.cdx.json
+            sbom-image.cdx.json
             sbom-image.sig
             sbom-image.crt
