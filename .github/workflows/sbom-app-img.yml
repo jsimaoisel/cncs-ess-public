@@ -20,8 +20,7 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
         
-      # SBOM (Maven / CycloneDX)
-      # Sign sbom
+      # SBOM (Maven / CycloneDX) + Sign
       - name: Generate SBOM (Application)
         run: mvn -B org.cyclonedx:cyclonedx-maven-plugin:2.8.0:makeAggregateBom
 
@@ -33,8 +32,8 @@ jobs:
           cosign sign-blob \
             --yes \
             target/bom.json \
-            --output-signature sbom-app.sig \
-            --output-certificate sbom-app.crt
+            --output-signature sbom-aplication.sig \
+            --output-certificate sbom-aplication.crt
 
       - name: Upload SBOM Application (+sig +crt)
         uses: actions/upload-artifact@v4
