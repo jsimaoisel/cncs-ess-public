@@ -1,4 +1,4 @@
-name: CI/CD security 2 jobs
+name: CI/CD security
 on:
   workflow_dispatch:
 
@@ -66,16 +66,7 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4
-
-  image-build-push:
-    runs-on: ubuntu-latest
-    permissions:
-      security-events: write
-      actions: read
-      contents: read
-      packages: write
-
-    steps:
+      
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
@@ -99,34 +90,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      # Build for AMD64 (to scan the image)
-      - name: Build Docker image
-        id: build
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          platforms: linux/amd64
-          push: false
-          load: true
-          
-      # Scan with Trivy
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.33.1
-        with:
-          image-ref: ${{ steps.meta.outputs.tags }}
-          format: 'sarif'
-          output: 'trivy-image-results.sarif'
-
-      - name: Upload artifact to pipeline metadata
-        uses: actions/upload-artifact@v4
-        with:
-          name: Generate artifact with Trivy result
-          path: trivy-image-results.sarif
-
-        # Push multi-arch (AMD64 + ARM64)
+      # Push multi-arch (AMD64 + ARM64)
       - name: Push Docker image (multi-arch)
         uses: docker/build-push-action@v5
         with:
