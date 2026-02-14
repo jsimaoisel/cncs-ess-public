@@ -126,7 +126,7 @@ jobs:
       - name: Upload artifact to pipeline metadata
         uses: actions/upload-artifact@v4
         with:
-          name: Generate artifact with Trivy result
+          name: Generate artifact with Trivy image result
           path: trivy-image-results.sarif
 
         # Push multi-arch (AMD64 + ARM64)
