@@ -1,5 +1,4 @@
-name: Build Pipeline phase 1 (junit + sast)
-
+name: CI/CD security
 on:
   workflow_dispatch:
 
