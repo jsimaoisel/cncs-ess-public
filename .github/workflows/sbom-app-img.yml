@@ -42,7 +42,7 @@ jobs:
           path: |
             target/bom.json
             sbom-aplication.sig
-            sbom-application.crt
+            sbom-aplication.crt
 
   sbom-image:
     runs-on: ubuntu-latest
@@ -97,6 +97,6 @@ jobs:
         with:
           name: sbom-image
           path: |
-            target/bom.json
+            target/sbom-image.cdx.json
             sbom-image.sig
             sbom-image.crt
