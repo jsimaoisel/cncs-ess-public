@@ -108,30 +108,48 @@ jobs:
         run: |
           cat <<EOF > provenance.json
           {
-            "builder": "github-actions",
-            "buildType": "docker",
-            "invocation": {
-              "configSource": {
-                "uri": "https://github.com/${{ github.repository }}",
+            "_type": "https://in-toto.io/Statement/v0.1",
+            "subject": [
+              {
+                "name": "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}",
                 "digest": {
-                  "sha1": "${{ github.sha }}"
+                  "sha256": "${{ steps.build.outputs.digest }}"
                 }
               }
-            },
-            "metadata": {
-              "buildInvocationId": "${{ github.run_id }}"
+            ],
+            "predicateType": "https://slsa.dev/provenance/v0.2",
+            "predicate": {
+              "builder": {
+                "id": "https://github.com/${{ github.repository }}/actions"
+              },
+              "buildType": "https://github.com/docker/build-push-action",
+              "invocation": {
+                "configSource": {
+                  "uri": "https://github.com/${{ github.repository }}",
+                  "digest": {
+                    "sha1": "${{ github.sha }}"
+                  }
+                }
+              },
+              "metadata": {
+                "buildInvocationId": "${{ github.run_id }}"
+              }
             }
           }
           EOF
 
+
       # -------------------------
       # Assinar PROVENANCE
       # -------------------------
-      - name: Attest build provenance
+      - name: Attest provenance
         run: |
-          IMAGE=$(echo "${{ steps.meta.outputs.tags }}" | cut -d',' -f1)
-
+          IMAGE="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}"
+      
+          echo "Attesting $IMAGE"
+      
           cosign attest --yes \
             --predicate provenance.json \
             --type slsaprovenance \
             "$IMAGE"
+
