@@ -156,6 +156,6 @@ jobs:
       
           cosign attest --yes \
             --predicate provenance.json \
-            --type slsaprovenance \
+            --type https://slsa.dev/provenance/v0.2 \
             "$IMAGE"
 
