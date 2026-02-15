@@ -100,3 +100,38 @@ jobs:
             sbom-image.cdx.json
             sbom-image.sig
             sbom-image.crt
+            
+      # -------------------------
+      # PROVENANCE (SLSA)
+      # -------------------------
+      - name: Generate provenance predicate
+        run: |
+          cat <<EOF > provenance.json
+          {
+            "builder": "github-actions",
+            "buildType": "docker",
+            "invocation": {
+              "configSource": {
+                "uri": "https://github.com/${{ github.repository }}",
+                "digest": {
+                  "sha1": "${{ github.sha }}"
+                }
+              }
+            },
+            "metadata": {
+              "buildInvocationId": "${{ github.run_id }}"
+            }
+          }
+          EOF
+
+      # -------------------------
+      # Assinar PROVENANCE
+      # -------------------------
+      - name: Attest build provenance
+        run: |
+          IMAGE=$(echo "${{ steps.meta.outputs.tags }}" | cut -d',' -f1)
+
+          cosign attest --yes \
+            --predicate provenance.json \
+            --type slsaprovenance \
+            "$IMAGE"
