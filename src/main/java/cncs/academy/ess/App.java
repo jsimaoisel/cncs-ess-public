@@ -16,13 +16,14 @@ import java.security.NoSuchAlgorithmException;
 
 public class App {
     public static void main(String[] args) throws NoSuchAlgorithmException {
+        int port = System.getenv("PORT") != null ? Integer.parseInt(System.getenv("PORT")) : 7100;
         Javalin app = Javalin.create(config -> {
             config.bundledPlugins.enableCors(cors -> {
                 cors.addRule(it -> {
                     it.anyHost();
                 });
             });
-        }).start(7100);
+        }).start(port);
 
         // Initialize routes for user management
         InMemoryUserRepository userRepository = new InMemoryUserRepository();

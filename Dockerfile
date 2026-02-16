@@ -3,9 +3,6 @@
 # ==========================================
 FROM maven:3.9-eclipse-temurin-21 AS build
 
-#ARG MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
-#WORKDIR .
-
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
 
