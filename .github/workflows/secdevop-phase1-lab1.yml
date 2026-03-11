@@ -39,13 +39,14 @@ jobs:
 
       # Trivy
       - name: Scan Completo com Trivy
-        uses: aquasecurity/trivy-action@0.20.0
+        uses: aquasecurity/trivy-action@0.33.1
         with:
           scan-type: 'fs'                      
           scanners: 'vuln,secret,config'     
           severity: 'CRITICAL,HIGH'
           format: 'sarif'
           output: 'trivy-results.sarif'
+          cache: 'true'
       
       - name: Upload SARIF
         uses: github/codeql-action/upload-sarif@v4
