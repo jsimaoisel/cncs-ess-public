@@ -39,7 +39,7 @@ jobs:
 
       # Trivy
       - name: Scan Completo com Trivy
-        uses: aquasecurity/trivy-action@0.33.1
+        uses: aquasecurity/trivy-action@0.35.0
         with:
           scan-type: 'fs'                      
           scanners: 'vuln,secret,config'     
